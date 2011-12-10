@@ -1,4 +1,5 @@
 /* 2011-05-14 (mca) : maze-game.js */
+/* Designing Hypermedia APIs by Mike Amundsen (2011) */
 
 var thisPage = function() {
 

@@ -1,5 +1,6 @@
 #! /bin/bash
 
+# /* Designing Hypermedia APIs by Mike Amundsen (2011) */
 # 2011-06.21 (mca) html5-microblog data for couchdb
 
 SVR=http://localhost:5984

@@ -1,5 +1,6 @@
 #! /bin/bash
 
+#/* Designing Hypermedia APIs by Mike Amundsen (2011) */
 # 2011-05.20 (mca) collection-data-tasks for couchdb
 
 clear

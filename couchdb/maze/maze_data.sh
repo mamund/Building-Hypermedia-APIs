@@ -1,5 +1,6 @@
 #! /bin/bash
 
+# /* Designing Hypermedia APIs by Mike Amundsen (2011) */
 # 2011-04-08 (mca) maze-data for couchdb
 
 clear

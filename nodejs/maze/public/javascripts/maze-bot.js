@@ -1,4 +1,5 @@
 /* 2011-04-15 (mca) : maze-bot.js */
+/* Designing Hypermedia APIs by Mike Amundsen (2011) */
 
 var thisPage = function() {
   

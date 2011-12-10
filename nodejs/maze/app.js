@@ -1,5 +1,6 @@
 /**
  * Maze+XML server.
+ * Designing Hypermedia APIs by Mike Amundsen (2011)
 */
 
 // for express
