@@ -1,0 +1,11 @@
+{
+  "_id" : "mamund",
+  "type" : "user",
+  "name" : "Mike Amundsen",
+  "email" : "mamund@yahoo.com",
+  "password" : "p@ssW0rd",
+  "description" : "learnin hypermedia",
+  "imageUrl" : "http://amundsen.com/images/mca-photos/mca-icon-b.jpg",
+  "websiteUrl" : "http://amundsen.com",
+  "dateCreated" : "2011-06-21"
+}

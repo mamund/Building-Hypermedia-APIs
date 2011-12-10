@@ -1,0 +1,66 @@
+{
+  "_id" : "_design/example",
+  
+  "views" : {
+    
+    "all" : {
+      "map" : "function(doc){
+        emit(doc.dateDue,doc);
+      }"
+    },
+    
+    "open" : {
+      "map" : "function(doc) {
+        if(doc.description && doc.dateCreated && doc.dateDue) {
+          if(doc.completed===false) {
+            emit(doc.dateDue,doc);
+          }
+        }
+      }"
+    },
+    
+    "closed" : {
+      "map" : "function(doc) {
+        if(doc.description && doc.dateCreated && doc.dateDue) {
+          if(doc.completed===true) {
+            emit(doc.dateDue,doc);
+          }
+        }
+      }"
+    },
+    
+    "due_date" : {
+      "map" : "function(doc) {
+        if(doc.description && doc.dateCreated && doc.dateDue) {
+          emit(doc.dateDue,doc);
+        }
+      }"
+    } 
+  },
+
+  "validate_doc_update": "function(newDoc, oldDoc, userCtx) {
+  
+    function require(field, message) {
+      message = message || field + ' is required';
+      if (!newDoc[field]) {
+          throw({forbidden : message});
+      }
+    };
+    
+    function unchanged(field) {
+      if(oldDoc && toJSON(oldDoc[field]) !== toJSON(newDoc[field])) {
+        throw({forbidden : field + ' is read-only'});
+      }
+    };
+    
+    if(newDoc._deleted) {
+      return true;
+    }
+    else {
+      require('description');
+      require('dateCreated');
+      require('dateDue');    
+    }    
+  }"
+}
+

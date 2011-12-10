@@ -1,0 +1,85 @@
+/* 2001-05-25 (mca) : collection.css */
+/* Designing Hypermedia APIs by Mike Amundsen (2011) */
+
+body {
+  background-color:#e3e3e3;
+  margin:0;
+  padding:0;
+  font-family: sans-serif;
+}
+
+div#left {
+  margin-left: 1em;
+  width: 450px;
+  float:left;
+}
+div#right {
+  width: 450px;
+  float : left;
+}
+
+form#input-form {
+  position:absolute;
+  width:500px;
+  height:150px;
+  top:300px;
+  left:400px;
+  border: medium outset black;
+  color:white;
+  background-color:#666;
+}
+
+div.block {
+  clear:both;
+  float:none;
+}
+
+div#collection ul {
+  margin-left:0;
+  padding-left:0;
+}
+div#collection li {
+  list-style-type: none;
+  margin-left:0;
+  padding-left:0;
+}
+
+h1 {
+  color:white;
+  background-color: #666;
+  margin: .6em;
+  padding: .2em;
+  border: 1px solid black;
+}
+fieldset {
+  width:500px;
+  border:none;
+  padding-top:1em;
+}
+span {
+  display:block;
+}
+a.link {
+  display:block;
+}
+form p {
+  margin:0;
+  clear:both;
+}
+
+form p label {
+  display:block;
+  width: 14em;
+  float:left;
+}
+
+form p input {
+  display:block;
+  float:left;
+}
+
+p.buttons {
+  margin-left: 14em;
+  clear:both;
+  float:none;
+}

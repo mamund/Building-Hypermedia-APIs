@@ -1,0 +1,9 @@
+{
+  "_id" : "lee",
+  "type" : "user",
+  "name" : "Lee Minors",
+  "email" : "lee@example.org",
+  "password" : "l33M1n0rs",
+  "description" : "Still looking for a million dollar idea.",
+  "dateCreated" : "2011-06-29"
+}

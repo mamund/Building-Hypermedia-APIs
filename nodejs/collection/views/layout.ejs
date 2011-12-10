@@ -1,0 +1,32 @@
+{
+  "collection" : {
+    "href" : "<%=site%>",
+    "version" : "1.0",
+    
+    "links" : [
+      {"rel" : "author", "href" : "mailto:mamund@yahoo.com", "prompt" : "Author"},
+      {"rel" : "profile", "href" : "http://amundsen.com/media-types/collection/profiles/tasks/", "prompt" : "Profile"}
+    ],    
+    
+    "queries" : [
+      {"rel" : "all", "href" : "<%=site%>;all", "prompt" : "All tasks"},
+      {"rel" : "open", "href" : "<%=site%>;open", "prompt" : "Open tasks"},
+      {"rel" : "closed", "href" : "<%=site%>;closed", "prompt" : "Closed tasks"},
+      {"rel" : "date-range", "href" : "<%=site%>;date-range", "prompt" : "Date Range",
+        "data" : [
+          {"name" : "date-start", "value" : "", "prompt" : "Start Date"},
+          {"name" : "date-stop", "value" : "", "prompt" : "Stop Date"}
+        ]
+      }
+    ],
+    
+    "template" : {
+      "data" : [
+        {"name" : "description", "value" : "", "prompt" : "Description"},
+        {"name" : "dateDue", "value" : "", "prompt" : "Date Due (yyyy-mm-dd)"},
+        {"name" : "completed", "value" : "", "prompt" : "Completed (true/false)?"}
+      ]
+    },
+    <%-body%>
+  }
+}

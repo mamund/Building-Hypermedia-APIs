@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MB QuoteBot</title>
+    <script type="text/javascript" src="javascripts/base64.js"></script>
+    <script type="text/javascript" src="javascripts/mbclient.js"></script>
+    <style>
+      h1 {margin:0;}
+      h2,h3,h4 {margin-bottom:0;}
+      p {margin-top:0;}
+      div#side {float:left;margin:auto 1em auto auto;}
+      div#main {float:left;}
+    </style>
+  </head>
+  <body>
+    <sidebar>
+      <div id="side">
+        <img src="http://amundsen.com/images/robot.jpg" />
+      </div>
+    </sidebar>
+    <article>
+      <div id="main">
+        <header>
+          <h1>MB QuoteBot</h1>
+        </header>
+        <section>
+          <p>
+            This bot understands the Microblogging profile enough to 
+            register a new user account and 
+            start posting quotes to the stream.
+          </p>
+        </section>
+        <section>
+          <h3>Progress</h3>
+          <p id="status"></p>
+        </section>
+      </div>
+      <div id="output">
+      </div>
+    </article>
+  </body>
+</html>

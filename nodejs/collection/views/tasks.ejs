@@ -1,0 +1,14 @@
+"items" : [
+      <%for(i=0,x=items.length;i<x;i++) {%>
+      {
+        "href" : "<%=site%><%=items[i].value._id%>",
+        "data" : [
+          {"name" : "description", "value" : "<%=items[i].value.description%>", "prompt" : "Description"},
+          {"name" : "completed", "value" : <%=items[i].value.completed%>, "prompt" : "Completed"},
+          {"name" : "dateDue", "value" : "<%=items[i].value.dateDue%>", "prompt" : "Date Due"}      
+        ]
+      }
+      <% if(i<items.length-1){%>,<% } %>
+      <% } %>
+    ]
+

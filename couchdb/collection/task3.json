@@ -1,0 +1,7 @@
+{
+  "_id" : "task2",
+  "description" : "This is my third task.",
+  "completed" : false,
+  "dateCreated" : "2011-06-01",
+  "dateDue" : "2011-11-30"
+}

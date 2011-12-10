@@ -1,0 +1,41 @@
+<h2 id="page-title"><%= title %></h2>
+<form class="user-add" action="<%=site%>users/" method="post">
+  <fieldset>
+    <h4>Account</h4>
+    <p class="input">
+      <label>Handle:</label>
+      <input name="user" value="" placeholder="coolhandle" required="true"/>
+    </p>
+    <p class="input">
+      <label>Password:</label>
+      <input name="password" type="password" value="" placeholder="mys3cr3t" required="true" />
+    </p>
+  </fieldset>
+  <fieldset>
+    <h4>User Info</h4>
+    <p class="input">
+      <label>Email Address:</label>
+      <input name="email" type="email" value="" placeholder="user@example.com"  required="true"/>
+    </p>
+    <p class="input">
+      <label>Full Name:</label>
+      <input name="name" value="" placeholder="Jane Doe"/>
+    </p>
+    <p class="input">
+      <label>Description:</label>
+      <textarea name="description"></textarea>
+    </p>
+    <p class="input">
+      <label>Avatar URL:</label>
+      <input name="avatar" type="url" value="" placeholder="http://example.com/images/my-avatar.jpg"/>
+    </p>
+    <p class="input">
+      <label>Website URL:</label>
+      <input name="website" type="url" value="" placeholder="http://example.com/my-blog/"/>
+    </p>
+  </fieldset>
+    <p class="buttons">
+      <input type="submit" value="Submit" />
+      <input type="reset" value="Reset" />
+    </p>
+</form>

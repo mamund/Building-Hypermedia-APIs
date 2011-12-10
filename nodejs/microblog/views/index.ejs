@@ -1,0 +1,33 @@
+<h2 id="page-title"><%= title %></h2>
+<form class="message-post" action="<%=site%>messages/" method="post">
+  <fieldset>
+    <h4>What's Up?</h4>
+    <textarea name="message" cols="50" rows="1" size="140" required="true"></textarea>
+    <span class="message-buttons">
+      <input type="submit" value="Submit" />
+      <input type="reset" value="Reset" />
+    </span>
+  </fieldset>
+</form>
+
+<div id="messages">
+  <ul class="all">
+    <% for(i=0,x=items.length;i<x;i++) { %>
+      <li>
+        <span class="message-text">
+          <%=items[i].value.text%>
+        </span>
+        @
+        <a rel="message" href="<%=site%>messages/<%=items[i].value._id%>" title="message">
+          <span class="date-time">
+            <%=items[i].value.dateCreated%>
+          </span>
+        </a>
+        by
+        <a rel="user" href="<%=site%>users/<%=items[i].value.user%>" title="<%=items[i].value.user%>">
+          <span class="user-text"><%=items[i].value.user%></span>
+        </a>      
+      </li>
+    <% } %>
+  </ul>
+</div>

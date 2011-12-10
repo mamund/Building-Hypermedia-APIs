@@ -1,0 +1,9 @@
+{
+  "_id" : "mary",
+  "type" : "user",
+  "name" : "Mary Muffin",
+  "email" : "mm@example.com",
+  "password" : "M@ryMuff1n",
+  "description" : "coding and cooking",
+  "dateCreated" : "2011-06-23"
+}

@@ -1,0 +1,26 @@
+<h2 id="page-title">Messages from <%=title%></h2>
+<div class="user-message-block">
+  <div id="messages">
+    <ul class="search">
+      <% for(i=0,x=items.length;i<x;i++) { %>
+        <li>
+          <span class="message-text">
+            <%=items[i].value.text%>
+          </span>
+          <span class="single">@</span>
+          <a rel="message" href="<%=site%>messages/<%=items[i].value._id%>" title="message">
+            <span class="date-time">
+              <%=items[i].value.dateCreated%>
+            </span>
+          </a>
+          <span class="single">by</span>
+          <a rel="user" href="<%=site%>users/<%=items[i].value.user%>" title="<%=items[i].value.user%>">
+            <span class="user-text"><%=items[i].value.user%></span>
+          </a>
+                
+        </li>
+      <% } %>
+    </ul>
+  </div>
+  &#160;
+</div>

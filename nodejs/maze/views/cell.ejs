@@ -1,0 +1,19 @@
+<cell href="<%=site%>/<%=maze%>/<%=cell%>" rel="current" debug="<%=debug%>" total="<%=total%>" side="<%=side%>">
+  <% if(debug[0]=='0') { %>
+    <link href="<%=site%>/<%=maze%>/<%=ix[0]%>:north" rel="north"/>
+  <% } %>
+  <% if(debug[1]=='0') { %>
+    <link href="<%=site%>/<%=maze%>/<%=ix[1]%>:west" rel="west"/>
+  <% } %>
+  <% if(debug[2]=='0') { %>
+    <link href="<%=site%>/<%=maze%>/<%=ix[2]%>:south" rel="south"/>
+  <% } %>
+  <% if(debug[3]=='0') { %>
+    <link href="<%=site%>/<%=maze%>/<%=ix[3]%>:east" rel="east"/>
+  <% } %>
+  <% if(exit=='1') { %>
+    <link href="<%=site%>/<%=maze%>/999" rel="exit" />
+  <% } %>
+  <link href="<%=site%>/" rel="collection" />
+  <link href="<%=site%>/<%=maze%>/" rel="maze" />
+</cell>

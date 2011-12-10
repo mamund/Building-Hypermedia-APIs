@@ -1,0 +1,28 @@
+<h2 id="page-title"><%= title %></h2>
+<div id="users">
+  <ul class="single">
+      <li>
+        <% if(items[0].value.imageUrl!==undefined) { %>
+        <img class="user-image" src="<%=items[0].value.imageUrl%>" />
+        <% } %>
+        
+        <a rel="user" href="<%=site%>users/<%=items[0].value._id%>" title="profile for <%=items[0].value._id%>">
+          <span class="user-text"><%= items[0].value.name %></span>
+        </a>
+
+        <% if(items[0].value.description!==undefined) { %>
+        <span class="description">
+          <%=items[0].value.description%>
+        </span>
+        <% } %>
+        
+        <% if(items[0].value.websiteUrl!==undefined) { %>
+        <a rel="website" href="<%=items[0].value.websiteUrl%>" title="website">
+          <%=items[0].value.websiteUrl%>
+        </a>
+        <% } %>
+            
+        <a rel="messages" href="<%=site%>user-messages/<%=items[0].value._id%>" title="messages by <%=items[0].value._id%>">messages</a>
+      </li>
+  </ul>
+</div>

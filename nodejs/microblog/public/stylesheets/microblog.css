@@ -1,0 +1,109 @@
+body {
+  background-color: #FFFFCC;
+  font-family: sans-serif;
+}
+
+div#queries {
+  width:500px;
+  float:right;
+}
+
+div#queries ul {
+  margin:0;
+  list-style-type:none;
+}
+div#queries ul li {
+  float:left;
+  padding-right: .4em;
+}
+
+div#messages ul {
+  margin:0;
+  list-style-type:none;
+}
+div#messages ul li {
+  margin-top: .3em;
+}
+
+div#messages ul.single li span.message-text {
+  font-size:large;
+  font-weight:bold;
+}
+
+div.message-block {
+  border: 1px solid black;
+  padding:.5em;
+  width:500px;
+  margin:auto;
+  -moz-border-radius: 25px; 
+  border-radius: 25px; 
+}
+
+div#messages ul.single li a,
+div#messages ul.single li span.single {
+  float:left;
+  margin-right: .3em;
+}
+
+ul.single {
+  margin:0;
+  list-style-type:none;
+}
+
+ul.single a,
+ul.single span,
+ul.single img
+{
+  display:block;
+}
+
+form.message-post {
+  width:600px;
+}
+form.message-post textarea {
+  display:block;
+  float:left;
+} 
+span.message-buttons {
+  display:block;
+  float:left;
+}
+
+fieldset {
+  margin-top: 1em;
+  -moz-border-radius: 25px; 
+  border-radius: 25px; 
+  background-color: #CCCC99;
+}
+fieldset h4 {
+  margin:0;
+}
+
+form.user-add {
+  width:300px;
+}
+
+p.input {
+  margin-top:0;
+  margin-bottom:0;
+}
+p.input label {
+  display:block;
+  width:150px;
+}
+p.input input,
+p.input textarea {
+  float:left;
+  width:200px;
+}
+
+span.message-buttons input {
+  background-color: #ffffcc;
+  -moz-border-radius: 15px; 
+  border-radius: 15px; 
+}
+p.buttons input {
+  background-color: #cccc99;
+  -moz-border-radius: 15px; 
+  border-radius: 15px; 
+}
