@@ -7,7 +7,7 @@ var http = require('http');
 var client, host, port, path, args, help;
 host = 'localhost';
 port = 3000;
-path = '/collection/tasks/'
+path = '/collection/tasks/';
 hdrs = {};
 args = {};
 
@@ -38,7 +38,7 @@ function getTemplate() {
 
   // event handlers
   req.on('response', function(response) {
-    var body = ''
+    var body = '';
     response.on('data', function(chunk) {
       body += chunk;
     });
@@ -63,7 +63,7 @@ function buildTask(template) {
   var coll, i, x, msg;
   
   // populate the template
-  coll = template.data
+  coll = template.data;
   for(i=0,x=coll.length;i<x;i++) {
     switch(coll[i].name) {
       case 'description':
@@ -96,7 +96,7 @@ function sendData(msg) {
 
   // event handlers
   req.on('response', function(response) {
-    var body = ''
+    var body = '';
     response.on('data', function(chunk) {
       body += chunk;
     });
@@ -116,4 +116,3 @@ function sendData(msg) {
 }
 
 // eof
-
