@@ -78,7 +78,7 @@ var thisPage = function() {
   }
   
   function printLine(msg) {
-    var elm, txt, x;
+    var elm, txt;
     
     elm = document.getElementById('game-play');
     if(elm) {
@@ -157,5 +157,3 @@ window.onload = function() {
   pg = thisPage();
   pg.init();
 };
-
-
