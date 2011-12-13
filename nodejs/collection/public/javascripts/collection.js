@@ -15,7 +15,7 @@ var cjs = function() {
     
   function init() {
     g.filterUrl = getArg('filter');
-    if(g.filterUrl!='') {
+    if(g.filterUrl!=='') {
       loadList(unescape(g.filterUrl));
     }
     else {
@@ -56,7 +56,7 @@ var cjs = function() {
   }
 
   function filterData(href, rel) {
-    var url, coll, i, x, a, args, data, part;
+    var url, coll, i, x, a, args, data;
     
     coll = document.getElementsByTagName('a');
     for(i=0,x=coll.length;i<x;i++) {
@@ -66,9 +66,9 @@ var cjs = function() {
       }
     }
 
-    url = window.location.href
+    url = window.location.href;
     if(url.indexOf('?')!=-1) {
-      url = url.substring(0,url.indexOf('?'))
+      url = url.substring(0,url.indexOf('?'));
     }
     
     args = (a.getAttribute('args') || '');
@@ -139,7 +139,7 @@ var cjs = function() {
   }
 
   function processLinks(coll) {
-    var ul, li, i, x, a, args
+    var ul, li, i, x, a, args;
         
     ul = document.createElement('ul');
 
@@ -254,7 +254,7 @@ var cjs = function() {
       inp = document.createElement('input');
       inp.type="text";
       inp.name = item.name;
-      if(inp.value!='') {
+      if(inp.value!=='') {
         inp.value = item.value;
       }
       else {
@@ -317,7 +317,7 @@ var cjs = function() {
   }
   
   function showEditForm(href) {
-    var coll, dd, i, x, str;
+    var coll, i, x, str, form, name, inp;
     str = '';
     
     form = document.getElementById('input-form');
@@ -352,7 +352,7 @@ var cjs = function() {
   }
 
   function toggleInputForm() {
-    var elm, coll, i, x;
+    var elm, coll, i, x, inp;
     
     elm = document.getElementById('input-form');
     if(elm) {
@@ -378,7 +378,7 @@ var cjs = function() {
   }
   
   function submitInputForm() {
-    var item, form, coll, nam, val, i, x, z, etag, href;
+    var item, form, coll, i, x, z, etag, href, ajax;
     
     form = document.getElementById('input-form');
     if(form) {
@@ -411,7 +411,7 @@ var cjs = function() {
           else {
             ajax.open('post',href,false);          
           }
-          ajax.setRequestHeader('content-type',g.contentType)
+          ajax.setRequestHeader('content-type',g.contentType);
           ajax.send(item);
           if(ajax.status>399) {
             alert('Error sending task!\n'+ajax.status);
@@ -458,7 +458,7 @@ var cjs = function() {
     rex = new RegExp("(?:\\?|&){@arg}=([^&]*)".replace('{@arg}',arg));
     match = rex.exec(location.search.replace("+"," "));
     
-    if (match != null)
+    if (match !== null)
     {
       id=match[1];
     }

@@ -58,7 +58,7 @@ app.get('/collection/tasks/;queries', function(req, res){
   res.header('content-type',contentType);
   res.render('queries', {
     layout : 'item-layout',
-    site  : 'http://localhost:3000/collection/tasks/',
+    site  : 'http://localhost:3000/collection/tasks/'
   });
 });
 
@@ -66,7 +66,7 @@ app.get('/collection/tasks/;template', function(req, res){
   res.header('content-type',contentType);
   res.render('template', {
     layout : 'item-layout',
-    site  : 'http://localhost:3000/collection/tasks/',
+    site  : 'http://localhost:3000/collection/tasks/'
   });
 });
 
@@ -141,7 +141,7 @@ app.get('/collection/tasks/:i', function(req, res){
     res.render('task', {
       layout : 'item-layout',
       site  : 'http://localhost:3000/collection/tasks/',
-      item : doc,
+      item : doc
     });
   });
 });
@@ -149,7 +149,7 @@ app.get('/collection/tasks/:i', function(req, res){
 /* handle creating a new task */
 app.post('/collection/tasks/', function(req, res){
   
-  var description, completed, dateDue, data;
+  var description, completed, dateDue, data, i, x;
   
   // get data array
   data = req.body.template.data; 
@@ -193,7 +193,7 @@ app.put('/collection/tasks/:i', function(req, res) {
 
   var idx = (req.params.i || '');
   var rev = req.header("if-match", "*");
-  var description, completed, dateDue, data;
+  var description, completed, dateDue, data, i, x;
   
   // get data array
   data = req.body.template.data; 
@@ -214,7 +214,6 @@ app.put('/collection/tasks/:i', function(req, res) {
   }
   
   // build JSON to write
-  var dt = new Date();
   var item = {};
   item.description = description;
   item.completed = completed;
@@ -257,8 +256,8 @@ function today() {
   if(d.length===1) {
     d = '0'+d;
   }
-  return y+'-'+m+'-'+d
-};
+  return y+'-'+m+'-'+d;
+}
 
 // Only listen on $ node app.js
 if (!module.parent) {
