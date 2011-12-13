@@ -30,14 +30,14 @@ var p = null;
 window.onload = function() {
   p = thisPage();
   p.init();
-}
+};
 
 var thisPage = function() {
 
   var g = {};
   
   /* state values */
-  g.startUrl = '/microblog/'
+  g.startUrl = '/microblog/';
   g.wait=10;
   g.status = '';
   g.url = '';
@@ -142,12 +142,12 @@ var thisPage = function() {
       }
     }
     else {
-      alert(ajax.status)
+      alert(ajax.status);
     }
   }
 
   function findUsersAllLink(doc) {
-    var elm, url, href;
+    var elm, url;
 
     elm = getElementsByRelType('users-all','a',doc)[0];
     if(elm) {
@@ -160,7 +160,7 @@ var thisPage = function() {
   }
   
   function findMyUserName(doc) {
-    var coll, url, href, found;
+    var coll, url, found, i, x;
 
     found=false;
     url=g.startUrl;
@@ -188,7 +188,7 @@ var thisPage = function() {
   }
 
   function findRegisterLink(doc) {
-    var elm, url, href;
+    var elm, url;
 
     elm = getElementsByRelType('register','a',doc)[0];
     if(elm) {
@@ -201,7 +201,7 @@ var thisPage = function() {
   }
 
   function findRegisterForm(doc) {
-    var coll, url, msg, found, i, x, args, c, body;
+    var coll, url, found, i, x, args, c, body, elm, name;
     
     c=0;
     args = [];
@@ -235,11 +235,11 @@ var thisPage = function() {
       }
     }
     
-    if(args.length!=0) {
+    if(args.length!==0) {
       body = '';
       for(i=0,x=args.length;i<x;i++) {
         if(i!==0) {
-          body +='&'
+          body +='&';
         }
         body += args[i].name+'='+encodeURIComponent(args[i].value);
       }
@@ -256,7 +256,7 @@ var thisPage = function() {
   }
 
   function findMessagePostForm(doc) {
-    var coll, url, msg, found, i, x, args, c, body;
+    var coll, url, found, i, x, args, c, body, elm, name;
     
     c=0;
     args = [];
@@ -287,11 +287,11 @@ var thisPage = function() {
       }
     }
     
-    if(args.length!=0) {
+    if(args.length!==0) {
       body = '';
       for(i=0,x=args.length;i<x;i++) {
         if(i!==0) {
-          body +='&'
+          body +='&';
         }
         body += args[i].name+'='+escape(args[i].value);
       }
@@ -407,4 +407,4 @@ var thisPage = function() {
   var that = {};
   that.init = init;
   return that;
-}
+};
