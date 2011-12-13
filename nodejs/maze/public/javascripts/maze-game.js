@@ -98,7 +98,7 @@ var thisPage = function() {
   }
   
   function processLinks(response) {
-    var xml, link, i, x, i, j, rels, href;
+    var xml, link, i, x, y, j, rels, href;
     
     g.links = [];
     xml = response.selectNodes('//link');
