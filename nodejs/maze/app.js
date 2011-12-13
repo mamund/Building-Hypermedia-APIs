@@ -37,7 +37,7 @@ app.get('/maze/', function(req, res){
   res.header('content-type',contentType);
   res.render('collection', {
     title : 'Maze+XML Hypermedia Example',
-    site  : 'http://localhost:3000/maze',
+    site  : 'http://localhost:3000/maze'
   });
 });
 
