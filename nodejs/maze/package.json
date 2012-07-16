@@ -1,0 +1,18 @@
+{
+  "author": "",
+  "name": "maze",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mamund/Building-Hypermedia-APIs.git"
+  },
+  "engines": {
+    "node": "~0.6.2"
+  },
+  "dependencies": {
+      "express": "2.5.11"
+    , "cradle": "0.6.3"
+    , "ejs":"0.7.2"
+  },
+  "devDependencies": {}
+}
