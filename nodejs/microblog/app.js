@@ -386,5 +386,12 @@ function badRequest(res) {
 // Only listen on $ node app.js
 if (!module.parent) {
   app.listen(3000);
-  console.log("Express server listening on port %d", app.address().port);
+
+  var address = app.address();
+  if (address === null) {
+    console.log("Port %d already used.", 3000);
+    process.exit(1);
+  }
+
+  console.log("Express server listening on port %d", address.port);
 }
