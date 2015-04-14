@@ -8,10 +8,10 @@
 
   "shows" : {
     "cells" : "function(doc,req){
-    return {body:doc.cells, headers : {'content-type':'application/json'}}
+    return {body:JSON.stringify(doc.cells), headers : {'content-type':'application/json'}}
     }"
   },
-    
+
   "validate_doc_update" : "function(newDoc, oldDoc, userCtx){
     throw {forbidden : 'read-only'}
   }"
