@@ -50,4 +50,3 @@ curl -v $SVR/html5-microblog/_design/microblog/_view/follows_is_following_user?i
 
 echo 'testing posts from followers view...'
 curl -vX POST $SVR/html5-microblog/_design/microblog/_view/posts_by_user -H $CT -d @posts_by_user.json
-
