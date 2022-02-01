@@ -5,75 +5,67 @@
  * Module dependencies.
  */
 
+const express = require('express');
+const errorhandler = require('errorhandler');
+const bodyparser = require('body-parser');
+const cradle = require('cradle');
+
 // for express
-var express = require('express');
-var app = module.exports = express.createServer();
+const app = module.exports = express();
+const port = process.env.PORT ?? 3000;
+const host = process.env.HOST ?? 'localhost';
 
 // for couch
-var cradle = require('cradle');
-var host = 'https://remote-couchdb-server.com';
-var port = 443;
-var credentials = {username: 'xxx', password: 'xxx' };
-var local=true;
-var db;
+const dbHost = process.env.DB_HOST ?? 'localhost';
+const dbPort = process.env.DB_PORT ?? 5984;
+const credentials = {username: 'xxx', password: 'xxx' };
+const local=true;
+let db;
 if(local===true) {
   db = new(cradle.Connection)().database('html5-microblog');
 }
 else {
-  db = new(cradle.Connection)(host, port, {auth: credentials}).database('html5-microblog');
+  db = new(cradle.Connection)(dbHost, dbPort, {auth: credentials}).database('html5-microblog');
 }
 
 // global data
-var contentType = 'text/html';
-var baseUrl = 'http://localhost:3000/microblog/';
+const contentType = 'text/html';
+const baseUrl = `http://${host}:${port}/microblog/`;
 
-// Configuration
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(bodyparser.json());
+app.use(express.static(__dirname + '/public'));
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+const errorOptions = process.NODE_ENV === 'production' ? { dumpExceptions: true, showStack: true } : undefined;
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
+app.use(errorhandler(errorOptions));
 
 /* validate user (from  db) via HTTP Basic Auth */
 function validateUser(req, res, next) {
-
-  var parts, auth, scheme, credentials; 
-  var view, options;
-  
   // handle auth stuff
-  auth = req.headers["authorization"];
+  const auth = req.headers["authorization"];
   if (!auth){
     return authRequired(res, 'Microblog');
-  }  
-  
-  parts = auth.split(' ');
-  scheme = parts[0];
-  credentials = new Buffer(parts[1], 'base64').toString().split(':');
-  
+  }
+
+  const parts = auth.split(' ');
+  const scheme = parts[0];
+  const credentials = new Buffer(parts[1], 'base64').toString().split(':');
+
   if ('Basic' != scheme) {
     return badRequest(res);
-  } 
+  }
   req.credentials = credentials;
 
   // ok, let's look this user up
-  view = '/_design/microblog/_view/users_by_id';
-  
-  options = {};
-  options.descending='true';
-  options.key=String.fromCharCode(34)+req.credentials[0]+String.fromCharCode(34);
-  
+  const view = '/_design/microblog/_view/users_by_id';
+
+  const options = {
+    descending: 'true',
+    key: `"${req.credentials[0]}"`
+  };
+
   db.get(view, options, function(err, doc) {
     try {
       if(doc[0].value.password===req.credentials[1]) {
@@ -81,7 +73,7 @@ function validateUser(req, res, next) {
       }
       else {
         throw new Error('Invalid User');
-      } 
+      }
     }
     catch (ex) {
       return authRequired(res, 'Microblog');
@@ -93,65 +85,57 @@ function validateUser(req, res, next) {
 
 /* starting page */
 app.get('/microblog/', function(req, res){
+  const view = '/_design/microblog/_view/posts_all';
+  const options = {
+    descending: 'true'
+  };
+  const ctype = acceptsXml(req);
 
-  var ctype;
-  
-  var view = '/_design/microblog/_view/posts_all';
-  
-  var options = {};
-  options.descending = 'true';
-
-  ctype = acceptsXml(req);
-  
   db.get(view, options, function(err, doc) {
     res.header('content-type',ctype);
     res.render('index', {
       title: 'Home',
       site: baseUrl,
       items: doc
-    });  
+    });
   });
 });
 
 /* single message page */
 app.get('/microblog/messages/:i', function(req, res){
+  const id = req.params.i;
+  const view = '/_design/microblog/_view/posts_by_id';
+  const options = {
+    descending: 'true',
+    key: `"${id}"`
+  };
+  const ctype = acceptsXml(req);
 
-  var view, options, id, ctype;
-  id = req.params.i;
-  
-  view = '/_design/microblog/_view/posts_by_id';
-  options = {};
-  options.descending='true';
-  options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
-
-  ctype = acceptsXml(req);
-  
   db.get(view, options, function(err, doc) {
     res.header('content-type',ctype);
     res.render('message', {
       title: id,
       site: baseUrl,
       items: doc
-    });  
+    });
   });
 });
 
 // add a message
 app.post('/microblog/messages/', function(req, res) {
-  
   validateUser(req, res, function(req,res) {
-  
-    var text, item;
-    
+    let item;
+
     // get data array
-    text = req.body.message;
+    const text = req.body.message;
     if(text!=='') {
-      item = {};
-      item.type='post';
-      item.text = text;
-      item.user = req.credentials[0];
-      item.dateCreated = now();
-      
+      item = {
+        type: 'post',
+        text,
+        user: req.credentials[0],
+        dateCreated: now()
+      };
+
       // write to DB
       db.save(item, function(err, doc) {
         if(err) {
@@ -161,98 +145,89 @@ app.post('/microblog/messages/', function(req, res) {
         else {
           res.redirect('/microblog/', 302);
         }
-      });  
+      });
     }
     else {
-      return badReqest(res);
+      return badRequest(res);
     }
   });
 });
 
 /* single user profile page */
 app.get('/microblog/users/:i', function(req, res){
+  const id = req.params.i;
+  const ctype = acceptsXml(req);
+  const view = '/_design/microblog/_view/users_by_id';
+  const options = {
+    descending: 'true',
+    key: `"${id}"`
+  };
 
-  var view, options, id, ctype;
-  id = req.params.i;
-  ctype = acceptsXml(req);
-    
-  view = '/_design/microblog/_view/users_by_id';
-  options = {};
-  options.descending='true';
-  options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
-  
   db.get(view, options, function(err, doc) {
     res.header('content-type',ctype);
     res.render('user', {
       title: id,
       site: baseUrl,
       items: doc
-    });  
+    });
   });
 });
 
 /* user messages page */
 app.get('/microblog/user-messages/:i', function(req, res){
+  const id = req.params.i;
+  const ctype = acceptsXml(req);
+  const view = '/_design/microblog/_view/posts_by_user';
+  const options = {
+    descending: 'true',
+    key:  `"${id}"`
+  };
 
-  var view, options, id, ctype;
- 
-  id = req.params.i;
-  ctype = acceptsXml(req);
-  
-  view = '/_design/microblog/_view/posts_by_user';
-  options = {};
-  options.descending='true';
-  options.key=String.fromCharCode(34)+id+String.fromCharCode(34);
-  
   db.get(view, options, function(err, doc) {
     res.header('content-type',ctype);
     res.render('user-messages', {
       title: id,
       site: baseUrl,
       items: doc
-    });  
+    });
   });
 });
 
 /* get user list page */
 app.get('/microblog/users/', function(req, res){
-  var ctype;
-  
-  var view = '/_design/microblog/_view/users_by_id';
-  
-  ctype = acceptsXml(req);
-    
+  const view = '/_design/microblog/_view/users_by_id';
+  const ctype = acceptsXml(req);
+
   db.get(view, function(err, doc) {
     res.header('content-type',ctype);
     res.render('users', {
       title: 'User List',
       site: baseUrl,
       items: doc
-    });  
+    });
   });
 });
 
 /* post to user list page */
 app.post('/microblog/users/', function(req, res) {
-
-  var item,id; 
-
-  id = req.body.user;
+  const id = req.body.user;
   if(id==='') {
     res.status=400;
-    res.send('missing user');  
+    res.send('missing user');
   }
   else {
-    item = {};
-    item.type='user';
-    item.password = req.body.password;
-    item.name = req.body.name;
-    item.email = req.body.email;
-    item.description = req.body.description;
-    item.imageUrl = req.body.avatar;
-    item.websiteUrl = req.body.website;
-    item.dateCreated = today();
-    
+    const { password, name, email, description, avatar, website } = req.body;
+    const item = {
+      type: 'user',
+      password,
+      name,
+      email,
+      description,
+      imageUrl: avatar,
+      websiteUrl: website,
+      dateCreated: today()
+    };
+
     // write to DB
     db.save(req.body.user, item, function(err, doc) {
       if(err) {
@@ -262,15 +237,13 @@ app.post('/microblog/users/', function(req, res) {
       else {
         res.redirect('/microblog/users/', 302);
       }
-    });    
+    });
   }
 });
 
 /* get user register page */
 app.get('/microblog/register/', function(req, res){
-
-  var ctype;
-  ctype = acceptsXml(req);
+  const ctype = acceptsXml(req);
 
   res.header('content-type',ctype);
   res.render('register', {
@@ -281,9 +254,9 @@ app.get('/microblog/register/', function(req, res){
 
 /* support various content-types from clients */
 function acceptsXml(req) {
-  var ctype = contentType;
-  var acc = req.headers["accept"];
-  
+  let ctype;
+  const acc = req.headers["accept"];
+
   switch(acc) {
     case "text/xml":
       ctype = "text/xml";
@@ -303,65 +276,30 @@ function acceptsXml(req) {
 
 /* compute the current date/time as a simple date */
 function today() {
-
-  var y, m, d, dt;
-  
-  dt = new Date();
-
-  y = String(dt.getFullYear());
-  
-  m = String(dt.getMonth()+1);
-  if(m.length===1) {
-    m = '0'+m;
-  }
-
-  d = String(dt.getDate());
-  if(d.length===1) {
-    d = '0'+d.toString();
-  }
+  const dt = new Date();
+  const y = String(dt.getFullYear());
+  const m = String(dt.getMonth()+1).padStart(2, '0');
+  const d = String(dt.getDate()).padStart(2, '0');
 
   return y+'-'+m+'-'+d;
 }
 
 /* compute the current date/time */
 function now() {
-  var y, m, d, h, i, s, dt;
-  
-  dt = new Date();
-  
-  y = String(dt.getFullYear());
-  
-  m = String(dt.getMonth()+1);
-  if(m.length===1) {
-    m = '0'+m;
-  }
+  const dt = new Date();
+  const y = String(dt.getFullYear());
+  const m = String(dt.getMonth()+1).padStart(2,'0');
+  const d = String(dt.getDate()).padStart(2,'0');
+  const h = String(dt.getHours()+1).padStart(2,'0');
+  const i = String(dt.getMinutes()+1).padStart(2,'0');
+  const s = String(dt.getSeconds()+1).padStart(2, '0');
 
-  d = String(dt.getDate());
-  if(d.length===1) {
-    d = '0'+d.toString();
-  }
-  
-  h = String(dt.getHours()+1);
-  if(h.length===1) {
-    h = '0'+h;
-  }
-  
-  i = String(dt.getMinutes()+1);
-  if(i.length===1) {
-    i = '0'+i;
-  }
-  
-  s = String(dt.getSeconds()+1);
-  if(s.length===1) {
-    s = '0'+s;
-  }
   return y+'-'+m+'-'+d+' '+h+':'+i+':'+s;
 }
 
 /* return standard 403 response */
 function forbidden(res) {
-
-  var body = 'Forbidden';
+  const body = 'Forbidden';
 
   res.setHeader('Content-Type', 'text/plain');
   res.setHeader('Content-Length', body.length);
@@ -371,7 +309,7 @@ function forbidden(res) {
 
 /* return standard 'auth required' response */
 function authRequired(res,realm) {
-  var r = (realm||'Authentication Required');
+  const r = (realm||'Authentication Required');
   res.statusCode = 401;
   res.setHeader('WWW-Authenticate', 'Basic realm="' + r + '"');
   res.end('Unauthorized');
@@ -384,14 +322,8 @@ function badRequest(res) {
 }
 
 // Only listen on $ node app.js
-if (!module.parent) {
-  app.listen(3000);
-
-  var address = app.address();
-  if (address === null) {
-    console.log("Port %d already used.", 3000);
-    process.exit(1);
-  }
-
-  console.log("Express server listening on port %d", address.port);
+if (require.main === module) {
+  app.listen(port, host,() => {
+    console.log(`Express server listening on port http://${host}:${port}/`);
+  });
 }
