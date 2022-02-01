@@ -1,5 +1,11 @@
 # Remaining tasks
 
-- [ ] Modernize example application from chapter 2
-- [ ] Modernize `collection.js` from chapter 3
-- [ ] Modernize example application from chapter 4
+- Chapter 2
+  - [ ] Modernize example application
+  - [ ] Add Open API
+- Chapter 3
+  - [ ] Modernize `collection.js`
+  - [ ] Add Open API
+- Chapter 4 
+  - [ ] Modernize example application
+  - [ ] Add Open API
