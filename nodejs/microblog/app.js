@@ -18,14 +18,14 @@ const host = process.env.HOST ?? 'localhost';
 // for couch
 const dbHost = process.env.DB_HOST ?? 'localhost';
 const dbPort = process.env.DB_PORT ?? 5984;
-const credentials = {username: 'xxx', password: 'xxx' };
-const local=true;
+const credentials = { username: process.env.DB_USER ?? 'admin', password: process.env.DB_PASSWORD ?? 'password' };
+const local = false;
 let db;
-if(local===true) {
-  db = new(cradle.Connection)().database('html5-microblog');
+if (local===true) {
+  db = new cradle.Connection().database('html5-microblog');
 }
 else {
-  db = new(cradle.Connection)(dbHost, dbPort, {auth: credentials}).database('html5-microblog');
+  db = new cradle.Connection(dbHost, dbPort, { auth: credentials }).database('html5-microblog');
 }
 
 // global data
@@ -59,7 +59,7 @@ function validateUser(req, res, next) {
   req.credentials = credentials;
 
   // ok, let's look this user up
-  const view = '/_design/microblog/_view/users_by_id';
+  const view = '_design/microblog/_view/users_by_id';
 
   const options = {
     descending: 'true',
@@ -85,7 +85,7 @@ function validateUser(req, res, next) {
 
 /* starting page */
 app.get('/microblog/', function(req, res){
-  const view = '/_design/microblog/_view/posts_all';
+  const view = '_design/microblog/_view/posts_all';
   const options = {
     descending: 'true'
   };
@@ -104,7 +104,7 @@ app.get('/microblog/', function(req, res){
 /* single message page */
 app.get('/microblog/messages/:i', function(req, res){
   const id = req.params.i;
-  const view = '/_design/microblog/_view/posts_by_id';
+  const view = '_design/microblog/_view/posts_by_id';
   const options = {
     descending: 'true',
     key: `"${id}"`
@@ -157,7 +157,7 @@ app.post('/microblog/messages/', function(req, res) {
 app.get('/microblog/users/:i', function(req, res){
   const id = req.params.i;
   const ctype = acceptsXml(req);
-  const view = '/_design/microblog/_view/users_by_id';
+  const view = '_design/microblog/_view/users_by_id';
   const options = {
     descending: 'true',
     key: `"${id}"`
@@ -177,7 +177,7 @@ app.get('/microblog/users/:i', function(req, res){
 app.get('/microblog/user-messages/:i', function(req, res){
   const id = req.params.i;
   const ctype = acceptsXml(req);
-  const view = '/_design/microblog/_view/posts_by_user';
+  const view = '_design/microblog/_view/posts_by_user';
   const options = {
     descending: 'true',
     key:  `"${id}"`
@@ -195,7 +195,7 @@ app.get('/microblog/user-messages/:i', function(req, res){
 
 /* get user list page */
 app.get('/microblog/users/', function(req, res){
-  const view = '/_design/microblog/_view/users_by_id';
+  const view = '_design/microblog/_view/users_by_id';
   const ctype = acceptsXml(req);
 
   db.get(view, function(err, doc) {
@@ -211,11 +211,11 @@ app.get('/microblog/users/', function(req, res){
 /* post to user list page */
 app.post('/microblog/users/', function(req, res) {
   const id = req.body.user;
-  if(id==='') {
+
+  if (id==='') {
     res.status=400;
     res.send('missing user');
-  }
-  else {
+  } else {
     const { password, name, email, description, avatar, website } = req.body;
     const item = {
       type: 'user',
@@ -230,12 +230,12 @@ app.post('/microblog/users/', function(req, res) {
 
     // write to DB
     db.save(req.body.user, item, function(err, doc) {
-      if(err) {
-        res.status=400;
+      if (err) {
+        res.status = 400;
         res.send(err);
       }
       else {
-        res.redirect('/microblog/users/', 302);
+        res.redirect(302, '/microblog/users/');
       }
     });
   }

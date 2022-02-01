@@ -1,7 +1,7 @@
 <h2 id="page-title"><%= title %></h2>
 <div id="users">
   <ul class="all">
-    <% for(i=0,x=items.length;i<x;i++) { %>
+    <% for(i=0,x=items?.length;i<x;i++) { %>
       <li>
         <span class="user-text"><%= items[i].value.name %></span>
         <a rel="user" href="<%=site%>users/<%=items[i].value._id%>" title="profile for <%=items[i].value._id%>"><%=items[i].value._id%></a>
