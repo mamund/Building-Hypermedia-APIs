@@ -29,4 +29,14 @@ The example applications in chapters 2, 3 and 4 in the book use CouchDB. To star
 docker run -p 5984:5984 -d --name my-couchdb couchdb:2.3.1
 ```
 
+Verify CouchDB installation by going to <http://127.0.0.1:5984/_utils/#/verifyinstall>
+
 To populate the DB for each example run the shell scripts in the corresponding folders in `couchdb/`.
+
+### Node dependencies
+
+Install Node dependencies by running the following command:
+
+```bash
+npm install
+```
