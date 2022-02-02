@@ -8,6 +8,7 @@
 const express = require('express');
 const errorhandler = require('errorhandler');
 const bodyparser = require('body-parser');
+const expressLayouts = require('express-ejs-layouts')
 const cradle = require('cradle');
 
 // for express
@@ -19,7 +20,7 @@ const host = process.env.HOST ?? 'localhost';
 const dbHost = process.env.DB_HOST ?? 'localhost';
 const dbPort = process.env.DB_PORT ?? 5984;
 const credentials = { username: process.env.DB_USER ?? 'admin', password: process.env.DB_PASSWORD ?? 'password' };
-const local = false;
+const local = true;
 let db;
 if (local===true) {
   db = new cradle.Connection().database('html5-microblog');
@@ -32,9 +33,13 @@ else {
 const contentType = 'text/html';
 const baseUrl = `http://${host}:${port}/microblog/`;
 
+app.use(expressLayouts);
+app.set('layout', __dirname + '/views/layout');
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 const errorOptions = process.NODE_ENV === 'production' ? { dumpExceptions: true, showStack: true } : undefined;
